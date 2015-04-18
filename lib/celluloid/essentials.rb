@@ -19,3 +19,9 @@ require 'celluloid/internals/stack'
 
 require 'celluloid/notifications'
 require 'celluloid/logging'
+
+require 'celluloid/supervision'
+
+# TODO: Remove unneeded gem requirements once the gems are well known.
+require 'celluloid/pool'
+require 'celluloid/fsm'

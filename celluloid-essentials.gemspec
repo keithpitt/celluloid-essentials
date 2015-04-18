@@ -5,12 +5,12 @@ Gem::Specification.new do |gem|
   gem.version      = '0.20.0'
   gem.platform     = Gem::Platform::RUBY
   gem.summary      = 'Internally used tools, and superstructural dependencies of Celluloid'
-  gem.description  = 'Notifications, Internals, Logging, and essential Celluloid pieces demanding Supervision'
+  gem.description  = 'Notifications, Internals, Logging, Probe, and essential Celluloid pieces demanding Supervision'
   gem.licenses     = ['MIT']
 
   gem.authors      = ["Tony Arcieri", "digitalextremist //"]
   gem.email        = ['tony.arcieri@gmail.com', 'code@extremist.digital']
-  gem.homepage     = 'https://github.com/celluloid/'
+  gem.homepage     = 'https://github.com/celluloid/celluloid-essentials'
 
   gem.required_ruby_version     = '>= 1.9.2'
   gem.required_rubygems_version = '>= 1.3.6'

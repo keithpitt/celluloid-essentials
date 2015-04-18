@@ -1,0 +1,3 @@
+# Celluloid Essentials
+
+* Prerelease gem.

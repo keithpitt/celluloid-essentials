@@ -4,7 +4,7 @@ Gem::Specification.new do |gem|
   gem.name         = 'celluloid-essentials'
   gem.version      = '0.20.0'
   gem.platform     = Gem::Platform::RUBY
-  gem.summary      = 'Internally used tools, and superstructural-dependencies of Celluloid'
+  gem.summary      = 'Internally used tools, and superstructural dependencies of Celluloid'
   gem.description  = 'Notifications, Internals, Logging, and essential Celluloid pieces demanding Supervision'
   gem.licenses     = ['MIT']
 

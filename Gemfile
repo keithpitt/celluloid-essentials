@@ -2,20 +2,13 @@ source 'https://rubygems.org'
 
 gem 'coveralls', require: false
 
-gem 'celluloid', github: 'celluloid/celluloid', branch: "0.17.0-prerelease"
-gem 'celluloid-supervision', github: 'celluloid/celluloid-supervision', branch: "master"
-
-# keep these gems in the bundle for now, until the world realizes they are gems
-gem 'celluloid-pool', github: 'celluloid/celluloid-pool', branch: "master"
-gem 'celluloid-fsm', github: 'celluloid/celluloid-fsm', branch: "master"
-
 gemspec development_group: :gem_build_tools
 
 group :development do
   gem 'pry'
-  gem 'guard'
-  gem 'rb-fsevent', '~> 0.9.1' if RUBY_PLATFORM =~ /darwin/
-  gem 'guard-rspec'
+  #de gem 'guard'
+  #de gem 'rb-fsevent', '~> 0.9.1' if RUBY_PLATFORM =~ /darwin/
+  #de gem 'guard-rspec'
   gem 'rubocop'
 end
 

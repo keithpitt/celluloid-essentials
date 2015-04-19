@@ -19,7 +19,9 @@ Gem::Specification.new do |gem|
   gem.require_path = 'lib'
 
   gem.add_development_dependency 'bundler'
-  gem.add_dependency 'celluloid-supervision'
-  gem.add_dependency 'celluloid-pool'
-  gem.add_dependency 'celluloid-fsm'
+
+  gem.add_runtime_dependency 'celluloid', '0.17.0.pre0'
+  gem.add_runtime_dependency 'celluloid-supervision'
+  gem.add_runtime_dependency 'celluloid-pool', '0.9.0.pre0'
+  gem.add_runtime_dependency 'celluloid-fsm'
 end

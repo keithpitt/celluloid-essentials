@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name         = 'celluloid-essentials'
-  gem.version      = '0.20.0.pre2'
+  gem.version      = '0.20.0.pre3'
   gem.platform     = Gem::Platform::RUBY
   gem.summary      = 'Internally used tools, and superstructural dependencies of Celluloid'
   gem.description  = 'Notifications, Internals, Logging, Probe, and essential Celluloid pieces demanding Supervision'
@@ -19,9 +19,9 @@ Gem::Specification.new do |gem|
   gem.require_path = 'lib'
 
   gem.add_development_dependency 'bundler'
-
   gem.add_development_dependency 'celluloid', '>= 0.17.0.pre0'
-  gem.add_runtime_dependency 'celluloid-supervision' '>= 0.13.9.pre0'
+
+  gem.add_runtime_dependency 'celluloid-supervision', '>= 0.13.9.pre0'
   gem.add_runtime_dependency 'celluloid-pool', '>= 0.10.0.pre0'
   gem.add_runtime_dependency 'celluloid-fsm', '>= 0.8.7.pre0'
 end

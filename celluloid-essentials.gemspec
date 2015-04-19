@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name         = 'celluloid-essentials'
-  gem.version      = '0.20.0.pre3'
+  gem.version      = '0.20.0.pre4'
   gem.platform     = Gem::Platform::RUBY
   gem.summary      = 'Internally used tools, and superstructural dependencies of Celluloid'
   gem.description  = 'Notifications, Internals, Logging, Probe, and essential Celluloid pieces demanding Supervision'

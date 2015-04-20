@@ -23,6 +23,12 @@ module Celluloid
 
       class ThreadState < Struct.new(:thread_id, :backtrace, :role)
         include DisplayBacktrace
+        def dump
+          string = ""
+          string << "Thread 0x#{thread_id.to_s(16)} (#{role}):\n"
+          display_backtrace backtrace, string if backtrace
+          string
+        end
       end
 
       class ActorState
@@ -30,6 +36,35 @@ module Celluloid
         attr_accessor :name, :id, :cell
         attr_accessor :status, :tasks
         attr_accessor :backtrace
+
+        def dump
+          string = ""
+          string << "Celluloid::Actor 0x#{id.to_s(16)}"
+          string << " [#{name}]" if name
+          string << "\n"
+
+          if cell
+            string << cell.dump
+            string << "\n"
+          end
+
+          if status == :idle
+            string << "State: Idle (waiting for messages)\n"
+            display_backtrace backtrace, string if backtrace
+          else
+            string << "State: Running (executing tasks)\n"
+            display_backtrace backtrace, string if backtrace
+            string << "\tTasks:\n"
+
+            tasks.each_with_index do |task, i|
+              string << "\t  #{i+1}) #{task.task_class}[#{task.type}]: #{task.status}\n"
+              string << "\t      #{task.meta.inspect}\n"
+              display_backtrace task.backtrace, string, "\t" if task.backtrace
+            end
+          end
+
+          string
+        end
       end
 
     end

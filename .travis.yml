@@ -23,6 +23,7 @@ env:
     - CELLULOID_TASK_CLASS=Threaded
     # - CELLULOID_TASK_CLASS=Threaded CELLULOID_GROUP_CLASS=Pool
     - CELLULOID_LEAKTEST=1
+
 notifications:
   irc: "irc.freenode.org#celluloid"
 

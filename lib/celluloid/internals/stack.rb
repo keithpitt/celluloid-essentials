@@ -6,7 +6,6 @@ module Celluloid
 
       def initialize(threads)
         @group = threads
-
         @actors  = []
         @threads = []
       end

@@ -58,11 +58,13 @@ module Celluloid
 
             tasks.each_with_index do |task, i|
               string << "\t  #{i+1}) #{task.task_class}[#{task.type}]: #{task.status}\n"
-              string << "\t      #{task.meta.inspect}\n"
-              display_backtrace task.backtrace, string, "\t" if task.backtrace
+              if task.backtrace
+                string << "\t      #{task.meta.inspect}\n"
+                display_backtrace task.backtrace, string, "\t"
+              end
             end
           end
-
+          string << "\n" unless backtrace
           string
         end
       end

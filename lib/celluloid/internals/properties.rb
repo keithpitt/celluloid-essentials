@@ -8,7 +8,9 @@ module Celluloid
         multi     = opts.fetch(:multi, false)
         ivar_name = "@#{name}".to_sym
 
-        ancestors.first.send(:define_singleton_method, name) do |value = nil, *extra|
+        singleton = class << ancestors.first; self; end
+        singleton.send(:remove_method, name) rescue nil
+        singleton.send(:define_method, name) do |value = nil, *extra|
           if value
             value = value ? [value, *send(name), *extra].uniq : [] if multi
             instance_variable_set(ivar_name, value)

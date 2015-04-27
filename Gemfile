@@ -1,8 +1,14 @@
 source 'https://rubygems.org'
 
+gem 'bundler'
 gem 'coveralls', require: false
 
-gemspec development_group: :gem_build_tools
+gem 'celluloid', github: 'celluloid/celluloid', branch: '0.17.0-prerelease'
+gem 'celluloid-supervision', github: 'celluloid/celluloid-supervision', branch: 'master'
+gem 'celluloid-pool', github: 'celluloid/celluloid-pool', branch: 'master'
+gem 'celluloid-fsm', github: 'celluloid/celluloid-fsm', branch: 'master'
+
+#de gemspec development_group: :gem_build_tools
 
 group :development do
   gem 'pry'

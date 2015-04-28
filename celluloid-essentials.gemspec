@@ -1,8 +1,10 @@
 # -*- encoding: utf-8 -*-
 
+require_relative 'culture/gems/gems'
+
 Gem::Specification.new do |gem|
   gem.name         = 'celluloid-essentials'
-  gem.version      = '0.20.0.pre12'
+  gem.version      = '0.20.0.pre13'
   gem.platform     = Gem::Platform::RUBY
   gem.summary      = 'Internally used tools, and superstructural dependencies of Celluloid'
   gem.description  = 'Notifications, Internals, Logging, Probe, and essential Celluloid pieces demanding Supervision'
@@ -18,13 +20,5 @@ Gem::Specification.new do |gem|
   gem.files        = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|examples|spec|features)/}) }
   gem.require_path = 'lib'
 
-  gem.add_development_dependency 'bundler'
-
-  gem.add_development_dependency "bundler"
-  gem.add_development_dependency "celluloid"
-  gem.add_development_dependency "celluloid-extras"
-  gem.add_development_dependency "celluloid-supervision"
-  gem.add_development_dependency "celluloid-fsm"
-  gem.add_development_dependency "celluloid-pool"
-  gem.add_development_dependency "timers", "~> 4.0.0"
+  Celluloid::Gems::gemspec gem
 end

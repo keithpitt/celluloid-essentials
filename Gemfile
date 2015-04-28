@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'bundler'
 gem 'coveralls', require: false
+gem "timers", github: "celluloid/timers"
 
 gemspec development_group: :gem_build_tools
 
@@ -26,4 +27,10 @@ group :gem_build_tools do
   gem 'rake'
 end
 
-gem 'celluloid-gems', github: 'celluloid/celluloid-gems', branch: 'master'
+gem 'celluloid', github: 'celluloid/celluloid', branch: '0.17.0-prerelease'
+gem "celluloid-extras", github: "celluloid/celluloid-extras", branch: "master"
+gem 'celluloid-supervision', github: 'celluloid/celluloid-supervision', branch: 'master'
+gem 'celluloid-pool', github: 'celluloid/celluloid-pool', branch: 'master'
+gem 'celluloid-fsm', github: 'celluloid/celluloid-fsm', branch: 'master'
+gem "timers", github: "celluloid/timers"
+

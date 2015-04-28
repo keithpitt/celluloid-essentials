@@ -20,6 +20,12 @@ require 'celluloid/internals/stack'
 require 'celluloid/notifications'
 require 'celluloid/logging'
 
+if $CELLULOID_DEPRECATE
+  puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@}"
+  Celluloid::Registry = Celluloid::Internals::Registry
+  Celluloid::Logger = Celluloid::Internals::Logger
+end
+
 require 'celluloid/supervision'
 
 # TODO: Remove unneeded gem requirements once the gems are well known.

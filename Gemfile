@@ -24,7 +24,6 @@ group :test do
   gem 'rspec', '~> 3.2'
   gem 'rspec-retry'
   gem 'rspec-log_split', github: 'abstractive/rspec-log_split', branch: 'master'
-  gem 'celluloid', github: 'celluloid/celluloid', branch: '0.17.0-prerelease'
 end
 
 group :gem_build_tools do

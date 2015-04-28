@@ -1,57 +1,62 @@
 RSpec.shared_examples "a Celluloid Stack" do
-  class Wait
-    QUEUE = Queue.new
-    WAITERS = Queue.new
-    ACTORS = Queue.new
+  # remove warnings in tests
+  unless defined? Wait
+    class Wait
+      QUEUE = Queue.new
+      WAITERS = Queue.new
+      ACTORS = Queue.new
 
-    def self.forever
-      WAITERS << Thread.current
-      QUEUE.pop
-    end
-
-    def self.no_longer
-      Wait::ACTORS.pop.terminate until Wait::ACTORS.empty?
-
-      loop do
-        break if WAITERS.empty?
-        QUEUE << nil
-        nicely_end_thread(WAITERS.pop)
+      def self.forever
+        WAITERS << Thread.current
+        QUEUE.pop
       end
-    end
 
-    def self.nicely_end_thread(th)
-      return if jruby_fiber?(th)
+      def self.no_longer
+        Wait::ACTORS.pop.terminate until Wait::ACTORS.empty?
 
-      status = th.status
-      case status
-      when nil, false, "dead"
-      when "aborting"
-        th.join(2) || STDERR.puts("Thread join timed out...")
-      when "sleep", "run"
-        th.kill
-        th.join(2) || STDERR.puts("Thread join timed out...")
-      else
-        STDERR.puts "unknown status: #{th.status.inspect}"
+        loop do
+          break if WAITERS.empty?
+          QUEUE << nil
+          nicely_end_thread(WAITERS.pop)
+        end
       end
-    end
 
-    def self.jruby_fiber?(th)
-      return false unless RUBY_PLATFORM == 'java' && (java_th = th.to_java.getNativeThread)
-      /Fiber/ =~ java_th.get_name
+      def self.nicely_end_thread(th)
+        return if jruby_fiber?(th)
+
+        status = th.status
+        case status
+        when nil, false, "dead"
+        when "aborting"
+          th.join(2) || STDERR.puts("Thread join timed out...")
+        when "sleep", "run"
+          th.kill
+          th.join(2) || STDERR.puts("Thread join timed out...")
+        else
+          STDERR.puts "unknown status: #{th.status.inspect}"
+        end
+      end
+
+      def self.jruby_fiber?(th)
+        return false unless RUBY_PLATFORM == 'java' && (java_th = th.to_java.getNativeThread)
+        /Fiber/ =~ java_th.get_name
+      end
     end
   end
 
-  class BlockingActor
-    include Celluloid
+  unless defined? BlockingActor
+    class BlockingActor
+      include Celluloid
 
-    def initialize(threads)
-      @threads = threads
-    end
+      def initialize(threads)
+        @threads = threads
+      end
 
-    def blocking
-      Wait::ACTORS << Thread.current
-      @threads << Thread.current
-      Wait.forever
+      def blocking
+        Wait::ACTORS << Thread.current
+        @threads << Thread.current
+        Wait.forever
+      end
     end
   end
 

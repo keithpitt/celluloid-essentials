@@ -20,7 +20,7 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'bundler'
 
-  gem.add_dependency 'celluloid'
+  gem.add_dependency 'celluloid', '>= 0.17.0.pre6'
   gem.add_dependency 'celluloid-supervision'
   gem.add_dependency 'celluloid-pool'
   gem.add_dependency 'celluloid-fsm'

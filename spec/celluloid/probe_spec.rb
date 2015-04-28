@@ -103,7 +103,7 @@ RSpec.describe "Probe", actor_system: :global do
       TestProbeClient.new(queue)
       create_events = []
       received_named_events = {
-        :default_incident_reporter => nil,
+        :incident_reporter => nil,
         :notifications_fanout      => nil
       }
 

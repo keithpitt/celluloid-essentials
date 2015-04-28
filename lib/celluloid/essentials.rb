@@ -20,8 +20,7 @@ require 'celluloid/internals/stack'
 require 'celluloid/notifications'
 require 'celluloid/logging'
 
-if $CELLULOID_DEPRECATE
-  puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@}"
+if $CELLULOID_BACKPORTED
   Celluloid::Registry = Celluloid::Internals::Registry
   Celluloid::Logger = Celluloid::Internals::Logger
 end

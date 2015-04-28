@@ -7,7 +7,7 @@ module Celluloid
     def initialize(events, triggering_event=nil)
       @events = events
       @triggering_event = triggering_event
-      @pid = $$
+      @pid = $PROCESS_ID
     end
 
     # Merge two incidents together. This may be useful if two incidents occur at the same time.

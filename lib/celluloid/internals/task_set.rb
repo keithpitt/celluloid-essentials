@@ -1,13 +1,13 @@
-require 'set'
-require 'forwardable'
+require "set"
+require "forwardable"
 
 module Celluloid
   module Internals
-    if RUBY_PLATFORM == 'java'
-      require 'jruby/synchronized'
+    if RUBY_PLATFORM == "java"
+      require "jruby/synchronized"
 
       class TaskSet
-        extend  Forwardable
+        extend Forwardable
         include JRuby::Synchronized
 
         def_delegators :@tasks, :<<, :delete, :first, :empty?, :to_a
@@ -16,7 +16,7 @@ module Celluloid
           @tasks = Set.new
         end
       end
-    elsif RUBY_ENGINE == 'rbx'
+    elsif RUBY_ENGINE == "rbx"
       class TaskSet
         def initialize
           @tasks = Set.new

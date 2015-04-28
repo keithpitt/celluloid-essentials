@@ -15,7 +15,7 @@ module Celluloid
 
       # Do links include the given actor?
       def include?(actor)
-        @links.has_key? actor.mailbox.address
+        @links.key? actor.mailbox.address
       end
 
       # Remove an actor from the links
@@ -30,7 +30,7 @@ module Celluloid
 
       # Generate a string representation
       def inspect
-        links = self.map(&:inspect).join(',')
+        links = map(&:inspect).join(",")
         "#<#{self.class}[#{links}]>"
       end
     end

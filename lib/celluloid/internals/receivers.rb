@@ -1,5 +1,5 @@
-require 'set'
-require 'timers'
+require "set"
+require "timers"
 
 module Celluloid
   module Internals

@@ -1,5 +1,4 @@
 RSpec.describe Celluloid::Internals::ThreadHandle do
-
   let(:actor_system) { Celluloid::ActorSystem.new }
   after { actor_system.shutdown }
 

@@ -1,7 +1,6 @@
 module Celluloid
   module Internals
     class Stack
-
       attr_accessor :actors, :threads
 
       def initialize(threads)
@@ -13,21 +12,19 @@ module Celluloid
       def snapshot(backtrace=nil)
         @group.each do |thread|
           if thread.role == :actor
-            @actors << snapshot_actor(thread.actor,backtrace) if thread.actor
+            @actors << snapshot_actor(thread.actor, backtrace) if thread.actor
           else
-            @threads << snapshot_thread(thread,backtrace)
+            @threads << snapshot_thread(thread, backtrace)
           end
         end
       end
 
-      def snapshot_actor(actor,backtrace=nil)
+      def snapshot_actor(actor, backtrace=nil)
         state = ActorState.new
         state.id = actor.object_id
 
         # TODO: delegate to the behavior
-        if actor.behavior.is_a?(Cell)
-          state.cell = snapshot_cell(actor.behavior)
-        end
+        state.cell = snapshot_cell(actor.behavior) if actor.behavior.is_a?(Cell)
 
         tasks = actor.tasks
         if tasks.empty?
@@ -37,7 +34,7 @@ module Celluloid
           state.tasks = tasks.to_a.map { |t| TaskState.new(t.class, t.type, t.meta, t.status, t.backtrace) }
         end
 
-        state.backtrace = actor.thread.backtrace if backtrace and actor.thread
+        state.backtrace = actor.thread.backtrace if backtrace && actor.thread
         state
       end
 
@@ -48,7 +45,7 @@ module Celluloid
         state
       end
 
-      def snapshot_thread(thread,backtrace=nil)
+      def snapshot_thread(thread, backtrace=nil)
         backtrace = begin
                       thread.backtrace
                     rescue NoMethodError # for Rubinius < 2.5.2.c145
@@ -66,11 +63,10 @@ module Celluloid
           output.print thread.dump
         end
       end
-
     end
   end
 end
 
-require 'celluloid/internals/stack/states'
-require 'celluloid/internals/stack/dump'
-require 'celluloid/internals/stack/summary'
+require "celluloid/internals/stack/states"
+require "celluloid/internals/stack/dump"
+require "celluloid/internals/stack/summary"

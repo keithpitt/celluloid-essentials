@@ -14,8 +14,6 @@ module Celluloid
 
       # Register an Actor
       def []=(name, actor)
-        #de REMOVE puts "ACTORS: #{@actors.keys}"
-        #de REMOVE puts "BRANCHES: #{@branches.keys}"
         if name == :root
           @registry.synchronize {
             @root = actor
@@ -43,7 +41,6 @@ module Celluloid
         @registry.synchronize {
           unless @branches.key? branch
             @branches[branch] = []
-            #de REMOVE puts "MAKING BRANCH ON REGISTRY: #{branch}"
             self.class.instance_eval {
               remove_method(branch) rescue nil
               define_method(branch) { @branches[branch] }
@@ -73,8 +70,8 @@ module Celluloid
 
       def delete(name)
         @registry.synchronize {
-          @actors.delete name.to_sym
           @index.delete name.to_sym
+          @actors.delete name.to_sym
         }
       end
 

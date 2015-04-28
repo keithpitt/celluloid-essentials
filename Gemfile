@@ -3,9 +3,7 @@ source 'https://rubygems.org'
 gem 'bundler'
 gem 'coveralls', require: false
 
-gem 'celluloid-gems', github: 'celluloid/celluloid-gems', branch: 'master'
-
-#de gemspec development_group: :gem_build_tools
+gemspec development_group: :gem_build_tools
 
 group :development do
   gem 'pry'
@@ -27,3 +25,5 @@ end
 group :gem_build_tools do
   gem 'rake'
 end
+
+gem 'celluloid-gems', github: 'celluloid/celluloid-gems', branch: 'master'

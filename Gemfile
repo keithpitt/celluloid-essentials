@@ -3,9 +3,7 @@ source 'https://rubygems.org'
 gem 'bundler'
 gem 'coveralls', require: false
 
-gem 'celluloid-supervision', github: 'celluloid/celluloid-supervision', branch: 'master'
-gem 'celluloid-pool', github: 'celluloid/celluloid-pool', branch: 'master'
-gem 'celluloid-fsm', github: 'celluloid/celluloid-fsm', branch: 'master'
+gem 'celluloid-gems', github: 'celluloid/celluloid-gems', branch: 'master'
 
 #de gemspec development_group: :gem_build_tools
 

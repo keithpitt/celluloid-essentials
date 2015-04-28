@@ -104,7 +104,9 @@ RSpec.describe "Probe", actor_system: :global do
       create_events = []
       received_named_events = {
         :incident_reporter => nil,
-        :notifications_fanout      => nil
+        :notifications_fanout => nil,
+        :group_manager => nil,
+        :public_services => nil
       }
 
       Celluloid::Probe.run_without_supervision
@@ -118,6 +120,7 @@ RSpec.describe "Probe", actor_system: :global do
           if ev[0] == 'celluloid.events.actor_created'
             create_events << ev
           elsif ev[0] == 'celluloid.events.actor_named'
+            puts "name: #{ev[1].name}"
             if received_named_events.keys.include?(ev[1].name)
               received_named_events[ev[1].name] = ev[1].mailbox.address
             end

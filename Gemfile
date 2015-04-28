@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 gem 'bundler'
 gem 'coveralls', require: false
 
-gem 'celluloid', github: 'celluloid/celluloid', branch: '0.17.0-prerelease'
 gem 'celluloid-supervision', github: 'celluloid/celluloid-supervision', branch: 'master'
 gem 'celluloid-pool', github: 'celluloid/celluloid-pool', branch: 'master'
 gem 'celluloid-fsm', github: 'celluloid/celluloid-fsm', branch: 'master'
@@ -25,6 +24,7 @@ group :test do
   gem 'rspec', '~> 3.2'
   gem 'rspec-retry'
   gem 'rspec-log_split', github: 'abstractive/rspec-log_split', branch: 'master'
+  gem 'celluloid', github: 'celluloid/celluloid', branch: '0.17.0-prerelease'
 end
 
 group :gem_build_tools do

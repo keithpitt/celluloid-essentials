@@ -1,4 +1,6 @@
-require_relative 'culture/gems/gems'
+$:.push File.expand_path("../", __FILE__)
+
+require 'culture/gems/gems'
 
 Celluloid::Gems::bundler self
 

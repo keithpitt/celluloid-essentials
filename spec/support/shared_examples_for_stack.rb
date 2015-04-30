@@ -38,7 +38,7 @@ RSpec.shared_examples "a Celluloid Stack" do
       end
 
       def self.jruby_fiber?(th)
-        return false unless RUBY_PLATFORM == 'java' && (java_th = th.to_java.getNativeThread)
+        return false unless RUBY_PLATFORM == "java" && (java_th = th.to_java.getNativeThread)
         /Fiber/ =~ java_th.get_name
       end
     end
@@ -120,15 +120,15 @@ RSpec.shared_examples "a Celluloid Stack" do
     actor_system.shutdown
   end
 
-  describe '#actors' do
-    it 'should include all actors' do
+  describe "#actors" do
+    it "should include all actors" do
       expect(subject.actors.size).to eq(2)
     end
   end
 
-  describe '#threads' do
+  describe "#threads" do
     # TODO: this spec should use mocks because it's non-deterministict
-    it 'should include threads that are not actors' do
+    it "should include threads that are not actors" do
       # NOTE: Pool#each doesn't guarantee to contain the newly started thread
       # because the actor's methods (which create and store the thread handle)
       # are started asynchronously.
@@ -153,19 +153,19 @@ RSpec.shared_examples "a Celluloid Stack" do
 
       # Pool somehow doesn't create extra tasks
       # 5 is on JRuby-head
-      expected = (Celluloid.group_class == Celluloid::Group::Pool) ? [3,4] : [4,5,6]
+      expected = (Celluloid.group_class == Celluloid::Group::Pool) ? [3, 4] : [4, 5, 6]
       expect(expected).to include(subject.threads.size)
     end
 
-    it 'should include idle threads' do
+    it "should include idle threads" do
       expect(subject.threads.map(&:thread_id)).to include(@idle_thread.object_id)
     end
 
-    it 'should include threads checked out of the group for roles other than :actor' do
+    it "should include threads checked out of the group for roles other than :actor" do
       expect(subject.threads.map(&:thread_id)).to include(@active_thread.object_id)
     end
 
-    it 'should have the correct roles' do
+    it "should have the correct roles" do
       expect(subject.threads.map(&:role)).to include(:idle_thing, :other_thing)
     end
   end

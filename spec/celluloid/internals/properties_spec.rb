@@ -5,7 +5,7 @@ RSpec.describe Celluloid::Internals::Properties do
   let(:example_class) do
     Class.new do
       extend Celluloid::Internals::Properties
-      property :baz, :default => 42
+      property :baz, default: 42
     end
   end
 

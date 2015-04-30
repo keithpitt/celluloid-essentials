@@ -1,7 +1,6 @@
 module Celluloid
   module Internals
     class Stack
-
       module DisplayBacktrace
         def display_backtrace(backtrace, output, indent = nil)
           backtrace ||= ["EMPTY BACKTRACE"]
@@ -57,7 +56,7 @@ module Celluloid
             string << "\tTasks:\n"
 
             tasks.each_with_index do |task, i|
-              string << "\t  #{i+1}) #{task.task_class}[#{task.type}]: #{task.status}\n"
+              string << "\t  #{i + 1}) #{task.task_class}[#{task.type}]: #{task.status}\n"
               if task.backtrace
                 string << "\t      #{task.meta.inspect}\n"
                 display_backtrace task.backtrace, string, "\t"
@@ -68,7 +67,6 @@ module Celluloid
           string
         end
       end
-
     end
   end
 end

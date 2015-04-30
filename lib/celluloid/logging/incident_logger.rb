@@ -1,4 +1,4 @@
-require 'logger'
+require "logger"
 module Celluloid
   # A logger that holds all messages in circular buffers, then flushes the buffers
   # when an event occurs at a configurable severity threshold.
@@ -12,13 +12,13 @@ module Celluloid
 
       def severity_to_string(severity)
         case severity
-        when TRACE   then 'TRACE'
-        when DEBUG   then 'DEBUG'
-        when INFO    then 'INFO'
-        when WARN    then 'WARN'
-        when ERROR   then 'ERROR'
-        when FATAL   then 'FATAL'
-        when UNKNOWN then 'UNKNOWN'
+        when TRACE   then "TRACE"
+        when DEBUG   then "DEBUG"
+        when INFO    then "INFO"
+        when WARN    then "WARN"
+        when ERROR   then "ERROR"
+        when FATAL   then "FATAL"
+        when UNKNOWN then "UNKNOWN"
         end
       end
     end
@@ -66,9 +66,7 @@ module Celluloid
       progname ||= @progname
       severity ||= UNKNOWN
 
-      if severity < @level
-        return event.id
-      end
+      return event.id if severity < @level
 
       if message.nil? && !block_given?
         message = progname
@@ -88,16 +86,36 @@ module Celluloid
       end
       event.id
     end
-    alias :log :add
+    alias_method :log, :add
 
     # See docs for Logger#info
-    def trace   (progname=nil, &block); add(TRACE,   nil, progname, &block); end
-    def debug   (progname=nil, &block); add(DEBUG,   nil, progname, &block); end
-    def info    (progname=nil, &block); add(INFO,    nil, progname, &block); end
-    def warn    (progname=nil, &block); add(WARN,    nil, progname, &block); end
-    def error   (progname=nil, &block); add(ERROR,   nil, progname, &block); end
-    def fatal   (progname=nil, &block); add(FATAL,   nil, progname, &block); end
-    def unknown (progname=nil, &block); add(UNKNOWN, nil, progname, &block); end
+    def trace(progname=nil, &block)
+      add(TRACE,   nil, progname, &block)
+    end
+
+    def debug(progname=nil, &block)
+      add(DEBUG,   nil, progname, &block)
+    end
+
+    def info(progname=nil, &block)
+      add(INFO,    nil, progname, &block)
+    end
+
+    def warn(progname=nil, &block)
+      add(WARN,    nil, progname, &block)
+    end
+
+    def error(progname=nil, &block)
+      add(ERROR,   nil, progname, &block)
+    end
+
+    def fatal(progname=nil, &block)
+      add(FATAL,   nil, progname, &block)
+    end
+
+    def unknown(progname=nil, &block)
+      add(UNKNOWN, nil, progname, &block)
+    end
 
     def flush
       messages = []

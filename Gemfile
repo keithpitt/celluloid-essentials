@@ -1,12 +1,6 @@
-$:.push File.expand_path("../", __FILE__)
-
-require 'culture/gems/gems'
-
-Celluloid::Gems::bundler self
-
+require File.expand_path("../culture/sync", __FILE__)
 source 'https://rubygems.org'
 
-gem 'coveralls', require: false
 
 gemspec development_group: :gem_build_tools
 
@@ -15,7 +9,6 @@ group :development do
   #de gem 'guard'
   #de gem 'rb-fsevent', '~> 0.9.1' if RUBY_PLATFORM =~ /darwin/
   #de gem 'guard-rspec'
-  gem 'rubocop'
 end
 
 group :test do
@@ -23,10 +16,10 @@ group :test do
   gem 'nenv'
   gem 'benchmark_suite'
   gem 'rspec', '~> 3.2'
-  gem 'rspec-retry'
-  gem 'rspec-log_split', github: 'abstractive/rspec-log_split', branch: 'master'
 end
 
 group :gem_build_tools do
   gem 'rake'
 end
+
+Celluloid::Sync.gems(self)

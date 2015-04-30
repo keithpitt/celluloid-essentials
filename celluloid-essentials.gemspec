@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-$:.push File.expand_path("../", __FILE__)
-
-require 'culture/gems/gems'
+require File.expand_path("../culture/sync", __FILE__)
 
 Gem::Specification.new do |gem|
   gem.name         = 'celluloid-essentials'
@@ -22,5 +20,5 @@ Gem::Specification.new do |gem|
   gem.files        = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|examples|spec|features)/}) }
   gem.require_path = 'lib'
 
-  Celluloid::Gems::gemspec gem
+  Celluloid::Sync.gems(gem)
 end

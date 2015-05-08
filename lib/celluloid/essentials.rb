@@ -21,8 +21,16 @@ require "celluloid/notifications"
 require "celluloid/logging"
 
 if $CELLULOID_BACKPORTED
-  Celluloid::Registry = Celluloid::Internals::Registry
-  Celluloid::Logger = Celluloid::Internals::Logger
+  module Celluloid
+    UUID = Internals::UUID
+    Links = Internals::Links
+    Logger = Internals::Logger
+    Registry = Internals::Registry
+    CPUCounter = Internals::CPUCounter
+    StackDump = Internals::Stack::Dump
+    Properties = Internals::Properties
+    ThreadHandle = Internals::ThreadHandle
+  end
 end
 
 require "celluloid/supervision"

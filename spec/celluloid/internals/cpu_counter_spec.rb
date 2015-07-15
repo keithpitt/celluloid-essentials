@@ -29,6 +29,8 @@ RSpec.describe Celluloid::Internals::CPUCounter do
     end
 
     context "with from_sysdev" do
+      subject { described_class.from_sysdev }
+
       context "when /sys/devices/system/cpu/present exists" do
         before do
           expect(::IO).to receive(:read).with("/sys/devices/system/cpu/present")
@@ -55,11 +57,34 @@ RSpec.describe Celluloid::Internals::CPUCounter do
       end
 
       context "when /sys/devices/system/cpu/cpu* files DO NOT exist" do
-        subject { described_class.from_sysdev }
         before do
           expect(Dir).to receive(:[]).with("/sys/devices/system/cpu/cpu*")
             .and_return([])
         end
+      end
+    end
+
+    context "with from_java" do
+      subject { described_class.from_java }
+
+      xit "not yet tested" do
+
+      end      
+    end
+
+    context "with from_proc" do
+      subject { described_class.from_proc }
+
+      xit "not yet tested" do
+
+      end      
+    end
+
+    context "with from_win32ole" do
+      subject { described_class.from_win32ole }
+
+      xit "not yet tested" do
+
       end
     end
 
@@ -83,6 +108,25 @@ RSpec.describe Celluloid::Internals::CPUCounter do
           `true`
         end
         it { is_expected.to eq num_cores }
+      end
+    end
+
+    xit "when all guesses fail" do
+      
+    end
+
+    context "with from_result" do
+      context "when passed a symbol" do
+        subject { described_class.from_result(:foo) }
+        it { is_expected.to be nil }
+      end
+      context "when passed 0" do
+        subject { described_class.from_result(:foo) }
+        it { is_expected.to be nil }
+      end
+      context "when passed valid integer" do
+        subject { described_class.from_result(num_cores) }
+        it { is_expected.to be num_cores }
       end
     end
   end

@@ -39,7 +39,7 @@ module Celluloid
         rescue
         end
 
-        def try_win32ole
+        def from_win32ole
           require 'win32ole'
           WIN32OLE.connect("winmgmts://").ExecQuery("select * from Win32_ComputerSystem").NumberOfProcessors
         rescue

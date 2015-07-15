@@ -9,12 +9,7 @@ module Celluloid
         private
 
         def count_cores
-          result = from_env || from_sysdev || from_java || from_proc || try_win32ole
-        rescue LoadError
-          result = Integer `sysctl -n hw.ncpu 2>/dev/null` rescue nil
-        ensure
-          return Integer(result.to_s[/\d+/], 10) if result
-          1
+          from_result(from_env || from_sysdev || from_java || from_proc || from_win32ole || from_sysctl) || 1
         end
 
         def from_env
@@ -24,22 +19,41 @@ module Celluloid
         def from_sysdev
           ::IO.read("/sys/devices/system/cpu/present").split("-").last.to_i + 1
         rescue Errno::ENOENT
-          result = Dir["/sys/devices/system/cpu/cpu*"].count { |n| n =~ /cpu\d+/ }
-          result unless result.zero?
+          begin
+            result = Dir["/sys/devices/system/cpu/cpu*"].count { |n| n =~ /cpu\d+/ }
+            result unless result.zero?
+          rescue
+          end
+        rescue
         end
 
         def from_java
           Java::Java.lang.Runtime.getRuntime.availableProcessors if defined? Java::Java
+        rescue
         end
 
         def from_proc
           File.read('/proc/cpuinfo').scan(/^processor\s*:/).size if File.exist?('/proc/cpuinfo')
+        rescue
         end
 
-        # Rescue this if it fails, in `count_cores`
         def try_win32ole
           require 'win32ole'
           WIN32OLE.connect("winmgmts://").ExecQuery("select * from Win32_ComputerSystem").NumberOfProcessors
+        rescue
+        end
+
+        def from_sysctl
+          Integer `sysctl -n hw.ncpu 2>/dev/null`
+        rescue
+        end
+
+        def from_result(result)
+          if result
+            i = Integer(result.to_s[/\d+/], 10)
+            return i if i > 0
+          end
+        rescue
         end
       end
     end

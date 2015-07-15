@@ -15,19 +15,20 @@ RSpec.describe Celluloid::Internals::CPUCounter do
       described_class.instance_variable_set(:@cores, nil)
     end
 
-    context "from valid env value" do
-      before { ENV["NUMBER_OF_PROCESSORS"] = num_cores.to_s }
-      it { is_expected.to eq num_cores }
+    context "with from_env" do
+      context "valid env value" do
+        before { ENV["NUMBER_OF_PROCESSORS"] = num_cores.to_s }
+        it { is_expected.to eq num_cores }
+      end
+
+      context "invalid env value" do
+        before { ENV["NUMBER_OF_PROCESSORS"] = "" }
+        subject { described_class.from_env }
+        it { is_expected.to be nil }
+      end
     end
 
-    context "from invalid env value" do
-      before { ENV["NUMBER_OF_PROCESSORS"] = "" }
-      specify { expect { subject }.to raise_error(ArgumentError) }
-    end
-
-    context "with no env value" do
-      before { ENV["NUMBER_OF_PROCESSORS"] = nil }
-
+    context "with from_sysdev" do
       context "when /sys/devices/system/cpu/present exists" do
         before do
           expect(::IO).to receive(:read).with("/sys/devices/system/cpu/present")
@@ -51,32 +52,37 @@ RSpec.describe Celluloid::Internals::CPUCounter do
           end
           it { is_expected.to eq num_cores }
         end
+      end
 
-        context "when /sys/devices/system/cpu/cpu* files DO NOT exist" do
-          before do
-            expect(Dir).to receive(:[]).with("/sys/devices/system/cpu/cpu*")
-              .and_return([])
-          end
-
-          context "when sysctl blows up" do
-            before { allow(described_class).to receive(:`).and_raise(Errno::EINTR) }
-            specify { expect { subject }.to raise_error }
-          end
-
-          context "when sysctl fails" do
-            before { allow(described_class).to receive(:`).and_return(`false`) }
-            it { is_expected.to be nil }
-          end
-
-          context "when sysctl succeeds" do
-            before do
-              expect(described_class).to receive(:`).with("sysctl -n hw.ncpu")
-                .and_return(num_cores.to_s)
-              `true`
-            end
-            it { is_expected.to eq num_cores }
-          end
+      context "when /sys/devices/system/cpu/cpu* files DO NOT exist" do
+        subject { described_class.from_sysdev }
+        before do
+          expect(Dir).to receive(:[]).with("/sys/devices/system/cpu/cpu*")
+            .and_return([])
         end
+      end
+    end
+
+    context "with from_sysctl" do
+      subject { described_class.from_sysctl }
+
+      context "when sysctl blows up" do
+        before { allow(described_class).to receive(:`).and_raise(Errno::EINTR) }
+        it { is_expected.to be nil }
+      end
+
+      context "when sysctl fails" do
+        before { allow(described_class).to receive(:`).and_return(`false`) }
+        it { is_expected.to be nil }
+      end
+
+      context "when sysctl succeeds" do
+        before do
+          expect(described_class).to receive(:`).with("sysctl -n hw.ncpu 2>/dev/null")
+            .and_return(num_cores.to_s)
+          `true`
+        end
+        it { is_expected.to eq num_cores }
       end
     end
   end

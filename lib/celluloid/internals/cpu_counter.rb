@@ -9,13 +9,16 @@ module Celluloid
         private
 
         def count_cores
-          result = from_env || from_sysdev || from_sysctl
-          Integer(result.to_s[/\d+/], 10) if result
+          result = from_env || from_sysdev || from_java || from_proc || try_win32ole
+        rescue LoadError
+          result = Integer `sysctl -n hw.ncpu 2>/dev/null` rescue nil
+        ensure
+          return Integer(result.to_s[/\d+/], 10) if result
+          1
         end
 
         def from_env
-          result = ENV["NUMBER_OF_PROCESSORS"]
-          result if result
+          ENV["NUMBER_OF_PROCESSORS"]
         end
 
         def from_sysdev
@@ -25,10 +28,18 @@ module Celluloid
           result unless result.zero?
         end
 
-        def from_sysctl
-          result = `sysctl -n hw.ncpu`
-          result if $CHILD_STATUS.success?
-        rescue Errno::ENOENT
+        def from_java
+          Java::Java.lang.Runtime.getRuntime.availableProcessors if defined? Java::Java
+        end
+
+        def from_proc
+          File.read('/proc/cpuinfo').scan(/^processor\s*:/).size if File.exist?('/proc/cpuinfo')
+        end
+
+        # Rescue this if it fails, in `count_cores`
+        def try_win32ole
+          require 'win32ole'
+          WIN32OLE.connect("winmgmts://").ExecQuery("select * from Win32_ComputerSystem").NumberOfProcessors
         end
       end
     end

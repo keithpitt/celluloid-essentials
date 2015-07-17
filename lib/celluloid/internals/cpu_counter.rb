@@ -15,7 +15,7 @@ module Celluloid
         def from_env
           result = ENV["NUMBER_OF_PROCESSORS"]
           result if result && !result.empty?
-        rescue
+        rescue Exception => e
         end
 
         def from_sysdev
@@ -24,30 +24,30 @@ module Celluloid
           begin
             result = Dir["/sys/devices/system/cpu/cpu*"].count { |n| n =~ /cpu\d+/ }
             result unless result.zero?
-          rescue
+          rescue Exception => e
           end
-        rescue
+        rescue Exception => e
         end
 
         def from_java
           Java::Java.lang.Runtime.getRuntime.availableProcessors if defined? Java::Java
-        rescue
+        rescue Exception => e
         end
 
         def from_proc
           File.read('/proc/cpuinfo').scan(/^processor\s*:/).size if File.exist?('/proc/cpuinfo')
-        rescue
+        rescue Exception => e
         end
 
         def from_win32ole
           require 'win32ole'
           WIN32OLE.connect("winmgmts://").ExecQuery("select * from Win32_ComputerSystem").NumberOfProcessors
-        rescue
+        rescue Exception => e
         end
 
         def from_sysctl
           Integer `sysctl -n hw.ncpu 2>/dev/null`
-        rescue
+        rescue Exception => e
         end
 
         def from_result(result)
@@ -55,7 +55,7 @@ module Celluloid
             i = Integer(result.to_s[/\d+/], 10)
             return i if i > 0
           end
-        rescue
+        rescue Exception => e
         end
       end
     end
